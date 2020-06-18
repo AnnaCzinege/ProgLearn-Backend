@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DataAccessLibrary.Models
 {
-    class UserQuiz
+    public class UserQuiz
     {
         public string UserId { get; set; }
         public int QuizId { get; set; }

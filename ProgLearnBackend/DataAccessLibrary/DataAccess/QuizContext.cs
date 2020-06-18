@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DataAccessLibrary.DataAccess
 {
-    class QuizContext : IdentityDbContext
+    public class QuizContext : IdentityDbContext
     {
         public QuizContext(DbContextOptions options) : base(options) { }
 

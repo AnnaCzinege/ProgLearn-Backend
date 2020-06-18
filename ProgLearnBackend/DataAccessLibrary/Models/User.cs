@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataAccessLibrary.Models
 {
-    class User : IdentityUser
+    public class User : IdentityUser
     {
         public IList<UserQuiz> QuizSet { get; set; }
     }

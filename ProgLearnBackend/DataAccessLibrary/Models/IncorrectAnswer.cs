@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataAccessLibrary.Models
 {
-    class IncorrectAnswer
+    public class IncorrectAnswer
     {
         public int Id { get; set; }
         [Required]
