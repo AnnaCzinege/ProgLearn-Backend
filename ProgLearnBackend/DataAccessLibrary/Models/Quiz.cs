@@ -25,5 +25,6 @@ namespace DataAccessLibrary.Models
         public string CorrectAnswer { get; set; }
         [Required]
         public IList<QuizIncorrectAnswer> IncorrectAnswers { get; set; }
+        public IList<UserQuiz> QuizSet { get; set; }
     }
 }
