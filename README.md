@@ -15,7 +15,7 @@ This repository contains the gRPC services for the website called ProgLearn.
 
 ## Frontend
 
-The bdmI frontend that acts as the presentation layer for the project is available at the following link: [ProgLearn-Frontend](https://github.com/AnnaCzinege/ProgLearn-Frontend)</br>
+The ProgLearn frontend that acts as the presentation layer for the project is available at the following link: [ProgLearn-Frontend](https://github.com/AnnaCzinege/ProgLearn-Frontend)</br>
 
 ## Contributors
 
