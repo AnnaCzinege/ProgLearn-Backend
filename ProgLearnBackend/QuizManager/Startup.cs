@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,7 +33,7 @@ namespace QuizManager
         {
             services.AddHostedService<LoadDatabase>();
             services.AddGrpc();
-            services.AddDbContextPool<QuizContext>(option => { option.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING")); });
+            services.AddDbContextPool<QuizContext>(option => { option.UseNpgsql("Host = localhost; Database = proglearn; Username = postgres; Password = ApDhpq1J"); });
             services.AddIdentity<User, IdentityRole>(opt =>
             {
                 opt.User.RequireUniqueEmail = true;
@@ -70,6 +71,12 @@ namespace QuizManager
                     await context.Response.WriteAsync("Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
                 });
             });
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            //Autofac configuration
+            builder.RegisterModule<DALAutofacModule>();
         }
     }
 }

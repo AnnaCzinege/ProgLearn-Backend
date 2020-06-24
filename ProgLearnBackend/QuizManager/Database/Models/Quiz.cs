@@ -23,7 +23,6 @@ namespace QuizManager.Database.Models
         [Required]
         [MaxLength(200)]
         public string CorrectAnswer { get; set; }
-        [Required]
         public IList<QuizIncorrectAnswer> IncorrectAnswers { get; set; }
         public IList<UserQuiz> QuizSet { get; set; }
     }

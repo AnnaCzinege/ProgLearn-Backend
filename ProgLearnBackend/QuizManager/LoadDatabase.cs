@@ -72,11 +72,18 @@ namespace QuizManager
                             {
                                 using HttpResponseMessage res = await new HttpClient().GetAsync(baseURL);
                                 string data = await res.Content.ReadAsStringAsync();
-                                JToken jsonObject = JObject.Parse(data);
-                                await AddNewQuiz(jsonObject);
-                                await AddNewIncorrectAnswer(jsonObject);
-                                await AddNewQuizIncorrectAnswer(jsonObject);
-                                succes = true;
+                                JToken jsonObject = JObject.Parse(data)["results"];
+                                foreach (var item in JObject.Parse(data)["results"])
+                                {
+                                    if (Convert.ToString(item["question"]) == question)
+                                    {
+                                        jsonObject = item;
+                                        await AddNewQuiz(jsonObject);
+                                        await AddNewIncorrectAnswer(jsonObject);
+                                        await AddNewQuizIncorrectAnswer(jsonObject);
+                                        succes = true;
+                                    }
+                                }
                             }
                             catch (HttpRequestException hre)
                             {
@@ -121,6 +128,7 @@ namespace QuizManager
 
             foreach (var incorrect in jsonObject["incorrect_answers"])
             {
+                Console.WriteLine(incorrect);
                 string currentOption = Convert.ToString(incorrect);
 
                 if (!incorrectAnswersFromDb.Contains(currentOption))
@@ -135,6 +143,7 @@ namespace QuizManager
         {
             foreach (var incorrect in jsonObject["incorrect_answers"])
             {
+                Console.WriteLine(incorrect);
                 int currentQuizId = await _unitOfWork.QuizRepository.GetIdByQuestion(Convert.ToString(jsonObject["question"]));
                 int currentOptionId = await _unitOfWork.IncorrectAnswerRepository.GetIdByOption(Convert.ToString(incorrect));
 
