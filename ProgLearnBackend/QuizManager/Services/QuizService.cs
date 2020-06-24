@@ -13,7 +13,7 @@ namespace QuizManager.Services
 
         public async Task<QuizDTO> GetQuiz(int userId, int quizId)
         {
-            
+            return null;
         }
     }
 }

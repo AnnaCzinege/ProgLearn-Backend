@@ -1,4 +1,5 @@
-﻿using QuizManager.Database.Repositories.Interfaces;
+﻿using QuizManager.Database.DataAccess;
+using QuizManager.Database.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,11 +14,13 @@ namespace QuizManager.Database.RepositoryContainer
         public IIncorrectAnswerRepository IncorrectAnswerRepository { get; set; }
         public IQuizIncorrectAnswerRepository QuizIncorrectAnswerRepository { get; set; }
         public IUserRepository UserRepository { get; set; }
+        public IUserQuizRepository UserQuizRepository { get; set; }
 
         public UnitOfWork(QuizContext context, 
             IQuizRepository quizRepository, 
             IIncorrectAnswerRepository incorrectAnswerRepository,
             IQuizIncorrectAnswerRepository quizIncorrectAnswerRepository,
+            IUserQuizRepository userQuizRepository,
             IUserRepository userRepository)
         {
             _context = context;
@@ -25,6 +28,7 @@ namespace QuizManager.Database.RepositoryContainer
             IncorrectAnswerRepository = incorrectAnswerRepository;
             QuizIncorrectAnswerRepository = quizIncorrectAnswerRepository;
             UserRepository = userRepository;
+            UserQuizRepository = userQuizRepository;
         }
         public async Task SaveAsync()
         {

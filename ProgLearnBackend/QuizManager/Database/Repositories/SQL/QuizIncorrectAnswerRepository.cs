@@ -1,4 +1,5 @@
-﻿using QuizManager.Database.Models;
+﻿using QuizManager.Database.DataAccess;
+using QuizManager.Database.Models;
 using QuizManager.Database.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;

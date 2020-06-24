@@ -11,6 +11,8 @@ namespace QuizManager.Database.RepositoryContainer
         IQuizRepository QuizRepository { get;}
         IIncorrectAnswerRepository IncorrectAnswerRepository { get; }
         IQuizIncorrectAnswerRepository QuizIncorrectAnswerRepository { get; }
+        IUserRepository UserRepository { get; }
+        IUserQuizRepository UserQuizRepository { get; }
         Task SaveAsync();
     }
 }

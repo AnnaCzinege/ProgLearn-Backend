@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QuizManager.Database
+namespace QuizManager.Database.DataAccess
 {
     public class QuizContext : IdentityDbContext
     {
@@ -14,7 +14,7 @@ namespace QuizManager.Database
         public DbSet<Models.Quiz> Quizzes { get; set; }
         public DbSet<IncorrectAnswer> IncorrectAnswers { get; set; }
         public DbSet<QuizIncorrectAnswer> QuizIncorrectAnswers { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> User { get; set; }
         public DbSet<UserQuiz> UserQuizzes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
