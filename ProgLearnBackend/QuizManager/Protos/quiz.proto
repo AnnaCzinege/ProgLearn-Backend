@@ -2,6 +2,23 @@ syntax = "proto3";
 
 option csharp_namespace = "QuizManager";
 
-service Quiz {
+package quiz;
 
+service Quiz {
+	rpc GetQuiz (GetQuizDTO) returns (QuizDTO);
 }
+
+message GetQuizDTO {
+	int32 userId = 1;
+	int32 quizId = 2;
+}
+
+message QuizDTO {
+	int32 quizId = 1;
+	string category = 2;
+	string difficulty = 3;
+	string question = 4;
+	string answer = 5;
+}
+
+
