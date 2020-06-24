@@ -7,9 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using QuizManager.Services;
 
-namespace QuizManager
+namespace IdentityManager
 {
     public class Startup
     {
@@ -32,7 +31,7 @@ namespace QuizManager
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<QuizService>();
+                endpoints.MapGrpcService<GreeterService>();
 
                 endpoints.MapGet("/", async context =>
                 {
