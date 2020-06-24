@@ -25,6 +25,8 @@ namespace QuizManager
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             List<string> questions = await GetQuizQuestions();
+            await Update(questions);
+            Console.WriteLine("Database update is completed!");
         }
 
         private async Task<List<string>> GetQuizQuestions()

@@ -11,16 +11,19 @@ namespace QuizManager.Database.RepositoryContainer
         private readonly QuizContext _context;
         public IQuizRepository QuizRepository { get; set; }
         public IIncorrectAnswerRepository IncorrectAnswerRepository { get; set; }
+        public IQuizIncorrectAnswerRepository QuizIncorrectAnswerRepository { get; set; }
         public IUserRepository UserRepository { get; set; }
 
         public UnitOfWork(QuizContext context, 
             IQuizRepository quizRepository, 
             IIncorrectAnswerRepository incorrectAnswerRepository,
+            IQuizIncorrectAnswerRepository quizIncorrectAnswerRepository,
             IUserRepository userRepository)
         {
             _context = context;
             QuizRepository = quizRepository;
             IncorrectAnswerRepository = incorrectAnswerRepository;
+            QuizIncorrectAnswerRepository = quizIncorrectAnswerRepository;
             UserRepository = userRepository;
         }
         public async Task SaveAsync()

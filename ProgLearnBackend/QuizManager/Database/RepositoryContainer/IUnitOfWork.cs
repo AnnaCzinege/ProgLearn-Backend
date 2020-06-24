@@ -10,6 +10,7 @@ namespace QuizManager.Database.RepositoryContainer
     {
         IQuizRepository QuizRepository { get;}
         IIncorrectAnswerRepository IncorrectAnswerRepository { get; }
+        IQuizIncorrectAnswerRepository QuizIncorrectAnswerRepository { get; }
         Task SaveAsync();
     }
 }
