@@ -9,5 +9,6 @@ namespace QuizManager.Database.Repositories.Interfaces
     public interface IIncorrectAnswerRepository : IGenericRepository<IncorrectAnswer>
     {
         Task<List<string>> GetAllOptions();
+        Task<int> GetIdByOption(string option);
     }
 }
