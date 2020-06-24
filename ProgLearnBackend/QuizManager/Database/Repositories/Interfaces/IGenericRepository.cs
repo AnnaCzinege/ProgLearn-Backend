@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLibrary.Repositories
+namespace QuizManager.Database.Repositories.Interfaces
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
         Task AddAsync(TEntity entity);
 
         Task Remove(TEntity entity);
-
-        Task Update(TEntity entity);
 
         Task<List<TEntity>> GetAll();
 

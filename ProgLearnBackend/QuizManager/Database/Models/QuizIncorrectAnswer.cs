@@ -1,4 +1,4 @@
-﻿namespace DataAccessLibrary.Models
+﻿namespace QuizManager.Database.Models
 {
     public class QuizIncorrectAnswer
     {

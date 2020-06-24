@@ -1,10 +1,10 @@
-﻿using DataAccessLibrary.Repositories;
+﻿using QuizManager.Database.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLibrary.RepositoryContainer
+namespace QuizManager.Database.RepositoryContainer
 {
     public interface IUnitOfWork
     {

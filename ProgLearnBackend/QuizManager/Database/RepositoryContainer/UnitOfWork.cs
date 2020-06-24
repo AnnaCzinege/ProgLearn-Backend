@@ -1,17 +1,18 @@
-﻿using DataAccessLibrary.DataAccess;
-using DataAccessLibrary.Repositories;
+﻿using QuizManager.Database.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLibrary.RepositoryContainer
+namespace QuizManager.Database.RepositoryContainer
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly QuizContext _context;
         public IQuizRepository QuizRepository { get; set; }
         public IUserRepository UserRepository { get; set; }
+
+        IQuizRepository IUnitOfWork.QuizRepository => throw new NotImplementedException();
 
         public UnitOfWork(QuizContext context, 
             IQuizRepository quizRepository, 

@@ -1,12 +1,11 @@
-﻿using DataAccessLibrary.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLibrary.Repositories
+namespace QuizManager.Database.Repositories.Interfaces
 {
-    public interface IQuizRepository : IGenericRepository<Quiz>
+    public interface IQuizRepository : IGenericRepository<Models.Quiz>
     {
         Task<List<string>> GetAllQuestions();
     }

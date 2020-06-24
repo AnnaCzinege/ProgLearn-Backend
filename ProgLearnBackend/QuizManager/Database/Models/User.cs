@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataAccessLibrary.Models
+namespace QuizManager.Database.Models
 {
     public class User : IdentityUser
     {

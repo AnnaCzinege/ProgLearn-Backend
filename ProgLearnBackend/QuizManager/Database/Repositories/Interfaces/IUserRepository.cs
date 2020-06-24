@@ -1,9 +1,9 @@
-﻿using DataAccessLibrary.Models;
+﻿using QuizManager.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataAccessLibrary.Repositories
+namespace QuizManager.Database.Repositories.Interfaces
 {
     public interface IUserRepository : IGenericRepository<User>
     {
