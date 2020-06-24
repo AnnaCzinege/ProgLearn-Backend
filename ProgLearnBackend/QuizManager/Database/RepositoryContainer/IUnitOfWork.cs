@@ -9,6 +9,7 @@ namespace QuizManager.Database.RepositoryContainer
     public interface IUnitOfWork
     {
         IQuizRepository QuizRepository { get;}
+        IIncorrectAnswerRepository IncorrectAnswerRepository { get; }
         Task SaveAsync();
     }
 }

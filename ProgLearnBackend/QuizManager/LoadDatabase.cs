@@ -1,8 +1,11 @@
-﻿using DataAccessLibrary.RepositoryContainer;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Linq;
+using QuizManager.Database.Models;
+using QuizManager.Database.RepositoryContainer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,26 +15,52 @@ namespace QuizManager
     {
         private readonly IUnitOfWork _unitOfWork;
         private int _fetchCounter = 0;
+        private string baseURL = "https://opentdb.com/api.php?amount=10&category=23&difficulty=easy&type=multiple";
 
         public LoadDatabase(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            throw new NotImplementedException();
+            List<string> questions = await GetQuizQuestions();
         }
 
-        private async Task Update(List<int> movieIds)
+        private async Task<List<string>> GetQuizQuestions()
         {
-            List<int> questionsFromDb = await _unitOfWork.QuizRepository.GetAllQuetions();
+            List<string> questions = new List<string>();
+            
 
-            foreach (var movieId in movieIds)
+            bool success = false;
+            while (!success)
             {
-                if (!movieIdsFromDb.Contains(movieId))
+                try
                 {
-                    string dynamicURL = $"https://api.themoviedb.org/3/movie/{movieId}?api_key=bb29364ab81ef62380611d162d85ecdb&language=en-US";
+                    using HttpResponseMessage res = await new HttpClient().GetAsync(baseURL);
+                    string data = await res.Content.ReadAsStringAsync();
+                    questions.AddRange(JObject.Parse(data)["results"].Select(item => Convert.ToString(item["question"])).ToList());
+                    success = true;
+                }
+                catch (HttpRequestException hre)
+                {
+                    Console.WriteLine($"Exception thrown getting page data: {baseURL}");
+                    Console.WriteLine(hre.Message);
+                }
+            }
+            Console.WriteLine(questions.Count());
+
+            return questions;
+        }
+
+        private async Task Update(List<string> questions)
+        {
+            List<string> questionsFromDb = await _unitOfWork.QuizRepository.GetAllQuestions();
+
+            foreach (var question in questions)
+            {
+                if (!questionsFromDb.Contains(question))
+                {
                     try
                     {
                         bool succes = false;
@@ -39,19 +68,17 @@ namespace QuizManager
                         {
                             try
                             {
-                                using HttpResponseMessage res = await new HttpClient().GetAsync(dynamicURL);
+                                using HttpResponseMessage res = await new HttpClient().GetAsync(baseURL);
                                 string data = await res.Content.ReadAsStringAsync();
                                 JToken jsonObject = JObject.Parse(data);
-                                await AddNewMovie(jsonObject);
-                                await AddNewGenres(jsonObject);
-                                await AddNewMovieGenre(jsonObject);
-                                await AddNewLanguages(jsonObject);
-                                await AddNewMovieLanguages(jsonObject);
+                                await AddNewQuiz(jsonObject);
+                                await AddNewIncorrectAnswer(jsonObject);
+                                await AddNewQuizIncorrectAnswer(jsonObject);
                                 succes = true;
                             }
                             catch (HttpRequestException hre)
                             {
-                                Console.WriteLine($"Exception thrown getting page data: {dynamicURL}");
+                                Console.WriteLine($"Exception thrown getting page data: {baseURL}");
                                 Console.WriteLine(hre.Message);
                             }
                         }
@@ -60,7 +87,7 @@ namespace QuizManager
                     {
                         if (ex is ArgumentNullException || ex is InvalidOperationException)
                         {
-                            Console.WriteLine($"Exception thrown getting page data: {dynamicURL}");
+                            Console.WriteLine($"Exception thrown getting page data: {baseURL}");
                             Console.WriteLine(ex.Message);
                             ++_fetchCounter;
                             continue;
@@ -70,6 +97,55 @@ namespace QuizManager
                 }
                 ++_fetchCounter;
                 Console.WriteLine(_fetchCounter);
+            }
+        }
+
+        private async Task AddNewQuiz(JToken jsonObject)
+        {
+            await _unitOfWork.QuizRepository.AddAsync(new Database.Models.Quiz()
+            {
+                Category = Convert.ToString(jsonObject["category"]),
+                Type = Convert.ToString(jsonObject["type"]),
+                Difficulty = Convert.ToString(jsonObject["difficulty"]),
+                Question = Convert.ToString(jsonObject["question"]),
+                CorrectAnswer = Convert.ToString(jsonObject["correct_answer"]),
+            });
+            await _unitOfWork.SaveAsync();
+        }
+
+        private async Task AddNewIncorrectAnswer(JToken jsonObject)
+        {
+            List<string> incorrectAnswersFromDb = await _unitOfWork.IncorrectAnswerRepository.GetAllOptions();
+
+            foreach (var incorrect in jsonObject["incorrect_answers"])
+            {
+                string currentOption = Convert.ToString(incorrect);
+
+                if (!incorrectAnswersFromDb.Contains(currentOption))
+                {
+                    await _unitOfWork.IncorrectAnswerRepository.AddAsync(new IncorrectAnswer() { Option = currentOption });
+                    await _unitOfWork.SaveAsync();
+                }
+            }
+        }
+
+        private async Task AddNewQuizIncorrectAnswer(JToken jsonObject)
+        {
+            foreach (var incorrect in jsonObject["incorrect_answers"])
+            {
+                int currentQuizId = await _unitOfWork.QuizRepository.GetIdByQuestion(Convert.ToString(jsonObject["question"]));
+                int currentOptionId = await _unitOfWork.IncorrectAnswerRepository.GetIdByOption(Convert.ToString(incorrect));
+
+                if (!await _unitOfWork.QuizIncorrectAnswerRepository.DoesPairExist(currentQuizId, currentOptionId))
+                {
+                    await _unitOfWork.QuizIncorrectAnswerRepository.AddAsync(new QuizIncorrectAnswer()
+                    {
+                        IncorrectAnswerId = currentOptionId,
+                        QuizId = currentQuizId
+                    });
+                    await _unitOfWork.SaveAsync();
+                }
+
             }
         }
     }

@@ -10,16 +10,17 @@ namespace QuizManager.Database.RepositoryContainer
     {
         private readonly QuizContext _context;
         public IQuizRepository QuizRepository { get; set; }
+        public IIncorrectAnswerRepository IncorrectAnswerRepository { get; set; }
         public IUserRepository UserRepository { get; set; }
-
-        IQuizRepository IUnitOfWork.QuizRepository => throw new NotImplementedException();
 
         public UnitOfWork(QuizContext context, 
             IQuizRepository quizRepository, 
+            IIncorrectAnswerRepository incorrectAnswerRepository,
             IUserRepository userRepository)
         {
             _context = context;
             QuizRepository = quizRepository;
+            IncorrectAnswerRepository = incorrectAnswerRepository;
             UserRepository = userRepository;
         }
         public async Task SaveAsync()

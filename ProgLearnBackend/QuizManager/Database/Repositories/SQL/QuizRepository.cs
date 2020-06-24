@@ -15,5 +15,10 @@ namespace QuizManager.Database.Repositories.SQL
         {
             return await _context.Quizzes.Select(q => q.Question).ToListAsync();
         }
+        public async Task<int> GetIdByQuestion(string question)
+        {
+            Models.Quiz quiz = await _context.Quizzes.FirstAsync(q => q.Question == question);
+            return quiz.Id;
+        }
     }
 }
