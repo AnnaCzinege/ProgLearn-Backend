@@ -25,8 +25,5 @@ namespace QuizManager.Database.DataAccess
             modelBuilder.Entity<UserQuiz>().HasKey(uq => new { uq.QuizId, uq.UserId });
 
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
     }
 }
