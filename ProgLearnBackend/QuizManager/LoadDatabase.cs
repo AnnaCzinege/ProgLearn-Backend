@@ -15,7 +15,7 @@ namespace QuizManager
     {
         private readonly IUnitOfWork _unitOfWork;
         private int _fetchCounter = 0;
-        private string baseURL = "https://opentdb.com/api.php?amount=10&category=23&difficulty=easy&type=multiple";
+        private string baseURL = "https://opentdb.com/api.php?amount=10&category=20&difficulty=hard&type=multiple";
 
         public LoadDatabase(IUnitOfWork unitOfWork)
         {
