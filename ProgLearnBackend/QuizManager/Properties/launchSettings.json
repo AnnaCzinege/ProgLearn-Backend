@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "QuizManager": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "CONNECTION_STRING": "Host=localhost;Database=proglearn;Username=postgres;Password=ApDhpq1J;",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:5001"
+    }
+  }
+}
