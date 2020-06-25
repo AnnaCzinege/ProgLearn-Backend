@@ -14,7 +14,7 @@ namespace QuizClient
             var request = new GetQuizDTO { QuizId = 130 };
 
             var reply = await client.GetQuizByIdAsync(request);
-
+            Console.WriteLine(reply.IncorrectAnswers);
             Console.WriteLine($"Id: {reply.QuizId}\nCategory: {reply.Category}\nDifficulty: {reply.Difficulty}\nQuestion: {reply.Question}\nAnswer: {reply.Answer}");
 
             Console.ReadLine();

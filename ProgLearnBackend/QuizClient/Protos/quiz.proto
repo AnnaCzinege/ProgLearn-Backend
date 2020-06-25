@@ -18,4 +18,10 @@ message QuizDTO {
 	string difficulty = 3;
 	string question = 4;
 	string answer = 5;
+	repeated IncorrectAnswerDTO incorrectAnswers = 6;
+}
+
+message IncorrectAnswerDTO {
+	int32 otionId = 1;
+	string option = 2;
 }
