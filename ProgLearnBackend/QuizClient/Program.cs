@@ -13,12 +13,8 @@ namespace QuizClient
             var channel = GrpcChannel.ForAddress("https://localhost:5001");
             var client = new Quiz.QuizClient(channel);
 
-            var request = new GetQuizByCategoryAndDifficultyDTO { Category = "History", Difficulty = "medium" };
-            var reply = await client.GetQuizzesByCategoryAndDifficultyAsync(request);
-
-            //var request = new GetQuizDTO { QuizId = 130 };
-
-            //var reply = await client.GetQuizByIdAsync(request);
+            var request = new GetQuizByCategoryAndDifficultyAndNumberDTO { Category = "Mythology", Difficulty = "hard", Number = 4 };
+            var reply = await client.GetQuizzesByCategoryAndDifficultyAndNumberAsync(request);
 
             foreach (var item in reply.Quizzes)
             {

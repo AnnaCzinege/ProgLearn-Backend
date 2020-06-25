@@ -25,15 +25,15 @@ namespace QuizManager.Services
             return await GetQuizAsDTO(quiz);
         }
 
-        public override async Task<QuizzesDTO> GetQuizzesByCategoryAndDifficulty(GetQuizByCategoryAndDifficultyDTO request, ServerCallContext context)
+        public override async Task<QuizzesDTO> GetQuizzesByCategoryAndDifficultyAndNumber(GetQuizByCategoryAndDifficultyAndNumberDTO request, ServerCallContext context)
         {
             List<Database.Models.Quiz> quizzesFromDb = await _unitOfWork.QuizRepository.GetQuizzesByCategoryAndDifficulty(request.Category, request.Difficulty);
             List<QuizDTO> quizList = new List<QuizDTO>();
             QuizzesDTO quizzes = new QuizzesDTO();
 
-            foreach (var quiz in quizzesFromDb)
+            for (int i=0; i < request.Number; i++)
             {
-                quizList.Add(await GetQuizAsDTO(quiz));
+                quizList.Add(await GetQuizAsDTO(quizzesFromDb[i]));
             }
 
             quizzes.Quizzes.AddRange(quizList);

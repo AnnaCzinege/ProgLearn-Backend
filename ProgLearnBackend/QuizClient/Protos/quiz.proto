@@ -8,7 +8,7 @@ service Quiz {
 	rpc GetQuizById (GetQuizDTO) returns (QuizDTO);
 	rpc GetQuizByCategory (GetQuizByCategoryDTO) returns (QuizDTO);
 	rpc GetQuizByDifficulty (GetQuizByDifficultyDTO) returns (QuizDTO);
-	rpc GetQuizzesByCategoryAndDifficulty (GetQuizByCategoryAndDifficultyDTO) returns (QuizzesDTO);
+	rpc GetQuizzesByCategoryAndDifficultyAndNumber (GetQuizByCategoryAndDifficultyAndNumberDTO) returns (QuizzesDTO);
 }
 
 message GetQuizDTO {
@@ -36,9 +36,10 @@ message GetQuizByDifficultyDTO {
 	string difficulty = 1;
 }
 
-message GetQuizByCategoryAndDifficultyDTO {
+message GetQuizByCategoryAndDifficultyAndNumberDTO {
 	string category = 1;
 	string difficulty = 2;
+	int32 number = 3;
 }
 
 message QuizzesDTO {
