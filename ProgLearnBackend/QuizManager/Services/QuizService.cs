@@ -22,8 +22,13 @@ namespace QuizManager.Services
         public override async Task<QuizDTO> GetQuizById(GetQuizDTO request, ServerCallContext context)
         {
             Database.Models.Quiz quiz = await _unitOfWork.QuizRepository.GetQuizById(request.QuizId);
-            IncorrectAnswerDTO incorrect = new IncorrectAnswerDTO();
             List<string> incorrectAnswers = await _unitOfWork.IncorrectAnswerRepository.GetIncorrectAnswers(quiz.IncorrectAnswers.Select(ia => ia.IncorrectAnswerId).ToList());
+            List<IncorrectAnswerDTO> options = new List<IncorrectAnswerDTO>();
+
+            foreach (var item in incorrectAnswers)
+            {
+                options.Add(new IncorrectAnswerDTO { Option = item });
+            }
 
             QuizDTO output = new QuizDTO
             {
@@ -33,6 +38,7 @@ namespace QuizManager.Services
                 Question = quiz.Question,
                 Answer = quiz.CorrectAnswer,
             };
+            output.IncorrectAnswers.AddRange(options);
             return output;
         }
     }

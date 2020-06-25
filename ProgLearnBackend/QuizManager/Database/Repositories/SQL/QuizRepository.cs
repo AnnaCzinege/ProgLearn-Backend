@@ -24,8 +24,7 @@ namespace QuizManager.Database.Repositories.SQL
 
         public async Task<Models.Quiz> GetQuizById(int quizId)
         {
-            Models.Quiz quiz = await _context.Quizzes.FirstAsync(q => q.Id == quizId);
-            return quiz;
+            return await _context.Quizzes.Include(q => q.IncorrectAnswers).SingleAsync(q => q.Id == quizId);
         }
     }
 }

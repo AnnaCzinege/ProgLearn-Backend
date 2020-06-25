@@ -22,6 +22,5 @@ message QuizDTO {
 }
 
 message IncorrectAnswerDTO {
-	int32 otionId = 1;
 	string option = 2;
 }
