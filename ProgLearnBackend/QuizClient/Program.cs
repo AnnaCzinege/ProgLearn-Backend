@@ -12,19 +12,28 @@ namespace QuizClient
         {
             var channel = GrpcChannel.ForAddress("https://localhost:5001");
             var client = new Quiz.QuizClient(channel);
-            var request = new GetQuizDTO { QuizId = 130 };
 
-            var reply = await client.GetQuizByIdAsync(request);
+            var request = new GetQuizByCategoryAndDifficultyDTO { Category = "History", Difficulty = "medium" };
+            var reply = await client.GetQuizzesByCategoryAndDifficultyAsync(request);
 
-            List<string> options = new List<string>();
+            //var request = new GetQuizDTO { QuizId = 130 };
 
-            foreach (var item in reply.IncorrectAnswers)
+            //var reply = await client.GetQuizByIdAsync(request);
+
+            foreach (var item in reply.Quizzes)
             {
-                options.Add(item.Option);
+                List<string> options = new List<string>();
+
+                foreach (var option in item.IncorrectAnswers)
+                {
+                    options.Add(option.Option);
+                }
+
+                Console.WriteLine($"\nCategory: {item.Category}\nDifficulty: {item.Difficulty}\n" +
+                    $"Question: {item.Question}\nAnswer: {item.Answer}\nIncorrect Answers: {options[0]}, {options[1]}, {options[2]}");
             }
 
-            Console.WriteLine($"Category: {reply.Category}\nDifficulty: {reply.Difficulty}\n" +
-                $"Question: {reply.Question}\nAnswer: {reply.Answer}\nIncorrect Answers: {options[0]}, {options[1]}, {options[2]}");
+            
 
             Console.ReadLine();
         }

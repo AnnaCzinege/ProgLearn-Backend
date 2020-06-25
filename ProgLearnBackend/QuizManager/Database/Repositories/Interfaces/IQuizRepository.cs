@@ -10,5 +10,6 @@ namespace QuizManager.Database.Repositories.Interfaces
         Task<List<string>> GetAllQuestions();
         Task<int> GetIdByQuestion(string question);
         Task<Models.Quiz> GetQuizById(int quizId);
+        Task<List<Models.Quiz>> GetQuizzesByCategoryAndDifficulty(string category, string difficulty);
     }
 }

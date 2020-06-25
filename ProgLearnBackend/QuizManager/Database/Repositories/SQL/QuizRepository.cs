@@ -26,5 +26,16 @@ namespace QuizManager.Database.Repositories.SQL
         {
             return await _context.Quizzes.Include(q => q.IncorrectAnswers).SingleAsync(q => q.Id == quizId);
         }
+
+        public async Task<List<Models.Quiz>> GetQuizzesByCategoryAndDifficulty(string category, string difficulty)
+        {
+            List<Models.Quiz> result = new List<Models.Quiz>();
+            List<Models.Quiz> quizzes = await _context.Quizzes.Where(q => q.Category == category && q.Difficulty == difficulty).ToListAsync();
+            foreach (var quiz in quizzes)
+            {
+                result.Add(await GetQuizById(quiz.Id));
+            }
+            return result;
+        }
     }
 }

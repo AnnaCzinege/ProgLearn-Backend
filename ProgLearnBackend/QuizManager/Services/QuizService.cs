@@ -22,6 +22,26 @@ namespace QuizManager.Services
         public override async Task<QuizDTO> GetQuizById(GetQuizDTO request, ServerCallContext context)
         {
             Database.Models.Quiz quiz = await _unitOfWork.QuizRepository.GetQuizById(request.QuizId);
+            return await GetQuizAsDTO(quiz);
+        }
+
+        public override async Task<QuizzesDTO> GetQuizzesByCategoryAndDifficulty(GetQuizByCategoryAndDifficultyDTO request, ServerCallContext context)
+        {
+            List<Database.Models.Quiz> quizzesFromDb = await _unitOfWork.QuizRepository.GetQuizzesByCategoryAndDifficulty(request.Category, request.Difficulty);
+            List<QuizDTO> quizList = new List<QuizDTO>();
+            QuizzesDTO quizzes = new QuizzesDTO();
+
+            foreach (var quiz in quizzesFromDb)
+            {
+                quizList.Add(await GetQuizAsDTO(quiz));
+            }
+
+            quizzes.Quizzes.AddRange(quizList);
+            return quizzes;
+        }
+
+        private async Task<QuizDTO> GetQuizAsDTO(Database.Models.Quiz quiz)
+        {
             List<string> incorrectAnswers = await _unitOfWork.IncorrectAnswerRepository.GetIncorrectAnswers(quiz.IncorrectAnswers.Select(ia => ia.IncorrectAnswerId).ToList());
             List<IncorrectAnswerDTO> options = new List<IncorrectAnswerDTO>();
 
@@ -38,13 +58,9 @@ namespace QuizManager.Services
                 Question = quiz.Question,
                 Answer = quiz.CorrectAnswer,
             };
+
             output.IncorrectAnswers.AddRange(options);
             return output;
-        }
-
-        public override Task<QuizzesDTO> GetQuizByCategoryAndDifficulty(GetQuizByCategoryAndDifficultyDTO request, ServerCallContext context)
-        {
-            return base.GetQuizByCategoryAndDifficulty(request, context);
         }
     }
 }
