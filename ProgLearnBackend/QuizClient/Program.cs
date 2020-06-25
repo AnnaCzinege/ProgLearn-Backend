@@ -11,7 +11,7 @@ namespace QuizClient
         {
             var channel = GrpcChannel.ForAddress("https://localhost:5001");
             var client = new Quiz.QuizClient(channel);
-            var request = new GetQuizDTO { QuizId = 198 };
+            var request = new GetQuizDTO { QuizId = 130 };
 
             var reply = await client.GetQuizByIdAsync(request);
 

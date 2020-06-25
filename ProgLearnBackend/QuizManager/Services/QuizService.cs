@@ -22,6 +22,7 @@ namespace QuizManager.Services
         public override async Task<QuizDTO> GetQuizById(GetQuizDTO request, ServerCallContext context)
         {
             Database.Models.Quiz quiz = await _unitOfWork.QuizRepository.GetQuizById(request.QuizId);
+            List<string> incorrectAnswers = await _unitOfWork.IncorrectAnswerRepository.GetIncorrectAnswers(quiz.IncorrectAnswers.Select(ia => ia.IncorrectAnswerId).ToList());
 
             QuizDTO output = new QuizDTO
             {

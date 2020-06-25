@@ -22,5 +22,12 @@ namespace QuizManager.Database.Repositories.SQL
             IncorrectAnswer incorrectAnswer = await _context.IncorrectAnswers.FirstAsync(ia => ia.Option == option);
             return incorrectAnswer.Id;
         }
+
+        public async Task<List<string>> GetIncorrectAnswers(List<int> incorrectAnswerIds)
+        {
+            return await _context.IncorrectAnswers.Where(ia => incorrectAnswerIds.Contains(ia.Id))
+                                        .Select(ia => ia.Option)
+                                        .ToListAsync();
+        }
     }
 }

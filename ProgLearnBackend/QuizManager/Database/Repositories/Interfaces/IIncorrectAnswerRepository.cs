@@ -10,5 +10,6 @@ namespace QuizManager.Database.Repositories.Interfaces
     {
         Task<List<string>> GetAllOptions();
         Task<int> GetIdByOption(string option);
+        Task<List<string>> GetIncorrectAnswers(List<int> incorrectAnswerIds);
     }
 }
