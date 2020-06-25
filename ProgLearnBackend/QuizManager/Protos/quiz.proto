@@ -5,12 +5,11 @@ option csharp_namespace = "QuizManager";
 package quiz;
 
 service Quiz {
-	rpc GetQuiz (GetQuizDTO) returns (QuizDTO);
+	rpc GetQuizById (GetQuizDTO) returns (QuizDTO);
 }
 
 message GetQuizDTO {
-	int32 userId = 1;
-	int32 quizId = 2;
+	int32 quizId = 1;
 }
 
 message QuizDTO {
