@@ -23,7 +23,7 @@ namespace QuizClient
                 options.Add(item.Option);
             }
 
-            Console.WriteLine($"Id: {reply.QuizId}\nCategory: {reply.Category}\nDifficulty: {reply.Difficulty}\n" +
+            Console.WriteLine($"Category: {reply.Category}\nDifficulty: {reply.Difficulty}\n" +
                 $"Question: {reply.Question}\nAnswer: {reply.Answer}\nIncorrect Answers: {options[0]}, {options[1]}, {options[2]}");
 
             Console.ReadLine();

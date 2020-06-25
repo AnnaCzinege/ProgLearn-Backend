@@ -6,6 +6,9 @@ package quiz;
 
 service Quiz {
 	rpc GetQuizById (GetQuizDTO) returns (QuizDTO);
+	rpc GetQuizByCategory (GetQuizByCategoryDTO) returns (QuizDTO);
+	rpc GetQuizByDifficulty (GetQuizByDifficultyDTO) returns (QuizDTO);
+	rpc GetQuizByCategoryAndDifficulty (GetQuizByCategoryAndDifficultyDTO) returns (QuizzesDTO);
 }
 
 message GetQuizDTO {
@@ -23,4 +26,21 @@ message QuizDTO {
 
 message IncorrectAnswerDTO {
 	string option = 2;
+}
+
+message GetQuizByCategoryDTO {
+	string category = 1;
+}
+
+message GetQuizByDifficultyDTO {
+	string difficulty = 1;
+}
+
+message GetQuizByCategoryAndDifficultyDTO {
+	string category = 1;
+	string difficulty = 2;
+}
+
+message QuizzesDTO {
+	repeated QuizDTO quizzes = 1;
 }

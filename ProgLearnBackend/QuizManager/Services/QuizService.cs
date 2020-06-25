@@ -41,5 +41,10 @@ namespace QuizManager.Services
             output.IncorrectAnswers.AddRange(options);
             return output;
         }
+
+        public override Task<QuizzesDTO> GetQuizByCategoryAndDifficulty(GetQuizByCategoryAndDifficultyDTO request, ServerCallContext context)
+        {
+            return base.GetQuizByCategoryAndDifficulty(request, context);
+        }
     }
 }
