@@ -1,6 +1,7 @@
 ﻿using Grpc.Net.Client;
 using QuizManager;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace QuizClient
@@ -14,8 +15,16 @@ namespace QuizClient
             var request = new GetQuizDTO { QuizId = 130 };
 
             var reply = await client.GetQuizByIdAsync(request);
-            Console.WriteLine(reply.IncorrectAnswers);
-            Console.WriteLine($"Id: {reply.QuizId}\nCategory: {reply.Category}\nDifficulty: {reply.Difficulty}\nQuestion: {reply.Question}\nAnswer: {reply.Answer}");
+
+            List<string> options = new List<string>();
+
+            foreach (var item in reply.IncorrectAnswers)
+            {
+                options.Add(item.Option);
+            }
+
+            Console.WriteLine($"Id: {reply.QuizId}\nCategory: {reply.Category}\nDifficulty: {reply.Difficulty}\n" +
+                $"Question: {reply.Question}\nAnswer: {reply.Answer}\nIncorrect Answers: {options[0]}, {options[1]}, {options[2]}");
 
             Console.ReadLine();
         }
